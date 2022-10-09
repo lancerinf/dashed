@@ -1,22 +1,21 @@
 # Dashed
 
 This project provides a simple setup for a Grafana installation, a PostgreSQL database and
-a pluggable set of data loaders that load data in the db, which in turns is the main source
+a pluggable set of data loaders that load data in the db, which in turns is the main data source
 for Grafana.
 
-In a different project we provide a way to import sports activities from Garmin Connect, and
-this is where we put that data to good use and get actionable insights from it.
+For example, [garmin-importer][garmin-importer] provides a way to export sports activities from Garmin Connect and into
+an own storage of choice (in that case, dynamo-db), and **dashed** is where that data is put to good use.
 
-We will make the data loader generic enough that it can be replicated to import data from other
-sources as well, so that we can extend the reach of our insights once we have more data sources.
-
-Starting the whole project should be as simple as issuing `docker-compose up`
+The data loader concept and implementation should be generic enough that it should be easy to replicate, so that other
+data can be imported from other sources. This will make it possible to extend the reach of our insights once we can
+cross-reference data from multiple sources.
 
 
 ## Grafana
 
 It is an industry standard, open-source, platform that gives users the possibility of crafting
-their own dashboard.
+their own dashboards.
 
 We will run the latest stable release from its docker container, and find a way to persist
 dashboards in a way that if we re-start this whole project on separate hardware, we get the
@@ -39,3 +38,5 @@ This is the component that at startup will check what data is in the database, m
 tables it needs are there and with the correct schema, that all the db migrations have been carried
 out, and import the necessary data.
 
+
+[garmin-importer]: https://github.com/lancerinf/garmin-importer
