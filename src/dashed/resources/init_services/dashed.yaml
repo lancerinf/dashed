@@ -1,0 +1,47 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: This provisions all the resources needed by this project
+Resources:
+  GrafanaAdminCredentials:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: dashed/grafana-admin
+      GenerateSecretString:
+        GenerateStringKey: password
+        PasswordLength: 16
+        IncludeSpace: False
+        SecretStringTemplate: '{"username": "admin"}'
+
+  PostgreSqlAdminCredentials:
+    Type: AWS::SecretsManager::Secret
+    Properties:
+      Name: dashed/postgresql-admin
+      GenerateSecretString:
+        GenerateStringKey: password
+        PasswordLength: 16
+        IncludeSpace: False
+        SecretStringTemplate: '{"username": "admin"}'
+
+  DashedUserManagedPolicy:
+    Type: AWS::IAM::ManagedPolicy
+    Properties:
+      Description: The minimum set of permissions that "dashed" user needs to correctly access secrets and data
+      PolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Action: "secretsmanager:getsecret"
+            Resource:
+              - !Ref GrafanaAdminCredentials
+              - !Ref PostgreSqlAdminCredentials
+          - Effect: Allow
+            Action:
+              - "dynamodb:query"
+              - "dynamodb:scan"
+            Resource: !Sub "arn:aws:dynamodb:${AWS::Region}:${AWS::AccountId}:table/garmin-activities-table"
+
+  DashedUser:
+    Type: AWS::IAM::User
+    Properties:
+      UserName: dashed
+      ManagedPolicyArns:
+        - !Ref DashedUserManagedPolicy
