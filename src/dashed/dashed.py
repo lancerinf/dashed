@@ -1,14 +1,16 @@
-from env_setup import setup_postgre, setup_grafana
+from env_setup import start_service
+from aws_utils import get_credentials_from_sm
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
 
 def main():
+    credentials = get_credentials_from_sm('dashed/service-credentials')
     # Initialize local db
-    setup_postgre()
+    start_service('postgres', credentials, 'POSTGRES_USER', 'POSTGRES_PASSWORD')
     # Initialize local Grafana
-    setup_grafana()
+    start_service('grafana', credentials, 'GRAFANA_USER', 'GRAFANA_PASSWORD')
     # Initialize data loaders
 
 

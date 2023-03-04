@@ -1,0 +1,23 @@
+apiVersion: 1
+
+deleteDatasources:
+  - name: PostgreSQL - dashed
+    orgId: 1
+
+datasources:
+  - name: PostgreSQL - dashed
+    orgId: 1
+    type: postgres
+    typeName: PostgreSQL
+    typeLogoUrl: public/app/plugins/datasource/postgres/img/postgresql_logo.svg
+    access: proxy
+    url: localhost:5432
+    user: admin
+    database: ""
+    basicAuth: false
+    isDefault: true
+    jsonData:
+      database: dashed
+      postgresVersion: 1500
+      sslmode: disable
+    readOnly: false

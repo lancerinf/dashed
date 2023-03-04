@@ -1,25 +1,10 @@
 AWSTemplateFormatVersion: "2010-09-09"
 Description: This provisions all the resources needed by this project
 Resources:
-  GrafanaAdminCredentials:
+  DashedServiceCredentials:
     Type: AWS::SecretsManager::Secret
     Properties:
-      Name: dashed/grafana-admin
-      GenerateSecretString:
-        GenerateStringKey: password
-        PasswordLength: 16
-        IncludeSpace: False
-        SecretStringTemplate: '{"username": "admin"}'
-
-  PostgreSqlAdminCredentials:
-    Type: AWS::SecretsManager::Secret
-    Properties:
-      Name: dashed/postgresql-admin
-      GenerateSecretString:
-        GenerateStringKey: password
-        PasswordLength: 16
-        IncludeSpace: False
-        SecretStringTemplate: '{"username": "admin"}'
+      Name: dashed/service-credentials
 
   DashedUserManagedPolicy:
     Type: AWS::IAM::ManagedPolicy
@@ -31,8 +16,7 @@ Resources:
           - Effect: Allow
             Action: "secretsmanager:getsecret"
             Resource:
-              - !Ref GrafanaAdminCredentials
-              - !Ref PostgreSqlAdminCredentials
+              - !Ref DashedServiceCredentials
           - Effect: Allow
             Action:
               - "dynamodb:query"

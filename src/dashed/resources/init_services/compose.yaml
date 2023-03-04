@@ -1,7 +1,8 @@
 version: "3.8"
+
 services:
-  db:
-    image: postgres:14-alpine
+  postgres:
+    image: postgres:15-alpine
     restart: always
     environment:
       - "POSTGRES_USER=${POSTGRES_USER}"
@@ -10,8 +11,21 @@ services:
     ports:
       - '5432:5432'
     volumes:
-      - db:/var/lib/postgresql/data
+      - postgres-volume:/var/lib/postgresql/data
+  grafana:
+    image: grafana/grafana-oss
+    restart: always
+    environment:
+      - "GF_SECURITY_ADMIN_USER=${GRAFANA_USER}"
+      - "GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}"
+    ports:
+      - '3000:3000'
+    volumes:
+      - grafana-storage:/var/lib/grafana
+      - ./grafana/provisioning:/etc/grafana/provisioning
 
 volumes:
-  db:
+  postgres-volume:
+    driver: local
+  grafana-storage:
     driver: local
