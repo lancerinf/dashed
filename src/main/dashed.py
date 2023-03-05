@@ -1,6 +1,7 @@
 from src.main.utils.docker_services import start_service
 from src.main.utils.aws import get_credentials_from_sm
 from src.main.models.credentials_bundle import Credentials
+from src.main.datasources.postgres import PostgresInitializer
 
 import logging
 
@@ -11,6 +12,9 @@ def main():
     credentials: Credentials = get_credentials_from_sm('dashed/service-credentials')
     # Initialize local db
     start_service('postgres', credentials, 'POSTGRES_USER', 'POSTGRES_PASSWORD')
+    db_initializer = PostgresInitializer(credentials)
+    db_initializer.initialize_db()
+
     # Initialize local Grafana
     start_service('grafana', credentials, 'GRAFANA_USER', 'GRAFANA_PASSWORD', 'POSTGRES_USER', 'POSTGRES_PASSWORD')
     # Initialize data loaders

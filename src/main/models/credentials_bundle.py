@@ -2,11 +2,14 @@ from dataclasses import dataclass
 from dataclasses_json import dataclass_json
 
 
+# Make sure that the secret in SecretsManager contains all and only the same kays as this dataclass
 @dataclass_json
 @dataclass
 class Credentials:
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
+    POSTGRES_RO_USER: str
+    POSTGRES_RO_PASSWORD: str
     GRAFANA_USER: str
     GRAFANA_PASSWORD: str
 
