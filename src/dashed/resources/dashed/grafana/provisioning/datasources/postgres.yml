@@ -11,13 +11,13 @@ datasources:
     typeName: PostgreSQL
     typeLogoUrl: public/app/plugins/datasource/postgres/img/postgresql_logo.svg
     access: proxy
-    url: localhost:5432
-    user: admin
-    database: ""
-    basicAuth: false
-    isDefault: true
+    url: postgres:5432
+    user: "$POSTGRES_USER"
+    secureJsonData:
+      password: "$POSTGRES_PASSWORD"
     jsonData:
       database: dashed
       postgresVersion: 1500
       sslmode: disable
     readOnly: false
+    isDefault: true

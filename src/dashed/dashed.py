@@ -10,7 +10,7 @@ def main():
     # Initialize local db
     start_service('postgres', credentials, 'POSTGRES_USER', 'POSTGRES_PASSWORD')
     # Initialize local Grafana
-    start_service('grafana', credentials, 'GRAFANA_USER', 'GRAFANA_PASSWORD')
+    start_service('grafana', credentials, 'GRAFANA_USER', 'GRAFANA_PASSWORD', 'POSTGRES_USER', 'POSTGRES_PASSWORD')
     # Initialize data loaders
 
 

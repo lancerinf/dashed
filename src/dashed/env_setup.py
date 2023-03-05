@@ -20,7 +20,7 @@ def start_service(service_name: str, credentials_bundle: Credentials, *args):
     try:
         # Start service as defined in docker compose
         docker = DockerClient(
-            compose_files=["resources/init_services/compose.yaml"],
+            compose_files=["resources/dashed/compose.yaml"],
             compose_env_file=tmp_file
         )
 
@@ -28,7 +28,7 @@ def start_service(service_name: str, credentials_bundle: Credentials, *args):
         # check if the desired container is already running
         already_running = False
         for container in running_containers:
-            if container.name.startswith(f'init_services-{service_name}'):
+            if container.name.startswith(f'dashed-{service_name}'):
                 already_running = True
                 logger.info(f"Service {service_name} is already running..")
 
@@ -41,7 +41,3 @@ def start_service(service_name: str, credentials_bundle: Credentials, *args):
             )
     finally:
         os.remove(tmp_file)
-
-# Check what else you need from here:
-# - https://grafana.com/docs/grafana/latest/setup-grafana/configure-grafana/
-# - https://grafana.com/docs/grafana/latest/datasources/postgres/#database-user-permissions-important

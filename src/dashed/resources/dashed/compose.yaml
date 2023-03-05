@@ -18,11 +18,14 @@ services:
     environment:
       - "GF_SECURITY_ADMIN_USER=${GRAFANA_USER}"
       - "GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_PASSWORD}"
+      - "POSTGRES_USER=${POSTGRES_USER}"
+      - "POSTGRES_PASSWORD=${POSTGRES_PASSWORD}"
     ports:
       - '3000:3000'
     volumes:
       - grafana-storage:/var/lib/grafana
-      - ./grafana/provisioning:/etc/grafana/provisioning
+      - ./grafana/provisioning/datasources:/etc/grafana/provisioning/datasources
+      - ./grafana/provisioning/dashboards:/etc/grafana/provisioning/dashboards
 
 volumes:
   postgres-volume:
