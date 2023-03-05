@@ -1,4 +1,4 @@
-from models import Credentials
+from src.main.models.credentials_bundle import Credentials
 
 import boto3
 from boto3_type_annotations.secretsmanager import Client

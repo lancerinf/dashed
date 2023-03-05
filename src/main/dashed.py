@@ -1,12 +1,14 @@
-from env_setup import start_service
-from aws_utils import get_credentials_from_sm
+from src.main.utils.docker_services import start_service
+from src.main.utils.aws import get_credentials_from_sm
+from src.main.models.credentials_bundle import Credentials
+
 import logging
 
 logging.basicConfig(level=logging.INFO)
 
 
 def main():
-    credentials = get_credentials_from_sm('dashed/service-credentials')
+    credentials: Credentials = get_credentials_from_sm('dashed/service-credentials')
     # Initialize local db
     start_service('postgres', credentials, 'POSTGRES_USER', 'POSTGRES_PASSWORD')
     # Initialize local Grafana

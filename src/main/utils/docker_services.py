@@ -1,11 +1,11 @@
+from src.main.models.credentials_bundle import Credentials
+
 import os
 import dataclasses
 import tempfile
 import logging
 
 from python_on_whales import DockerClient, Container
-
-from models import Credentials
 
 logger = logging.getLogger(__name__)
 
