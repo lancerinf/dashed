@@ -9,8 +9,10 @@ from python_on_whales import DockerClient, Container
 
 logger = logging.getLogger(__name__)
 
+DOCKER_COMPOSE_PATH = "resources/dashed/compose.yaml"
 
-def start_service(service_name: str, credentials_bundle: Credentials, *args):
+
+def start_service(service_name: str, credentials_bundle: Credentials, *args) -> bool:
     tmp_file = tempfile.mktemp(prefix=f"dashed-{service_name}-")
     credentials_dict = dataclasses.asdict(credentials_bundle)
 
@@ -20,7 +22,7 @@ def start_service(service_name: str, credentials_bundle: Credentials, *args):
     try:
         # Start service as defined in docker compose
         docker = DockerClient(
-            compose_files=["resources/dashed/compose.yaml"],
+            compose_files=[DOCKER_COMPOSE_PATH],
             compose_env_file=tmp_file
         )
 
@@ -39,5 +41,20 @@ def start_service(service_name: str, credentials_bundle: Credentials, *args):
                 detach=True,
                 wait=True
             )
+    except BaseException as e:
+        return False
     finally:
         os.remove(tmp_file)
+    return True
+
+
+def stop_services() -> bool:
+    try:
+        # Stop all services defined in docker compose
+        docker = DockerClient(
+            compose_files=[DOCKER_COMPOSE_PATH]
+        )
+        docker.compose.down()
+    except BaseException as e:
+        return False
+    return True
