@@ -13,10 +13,10 @@ datasources:
     access: proxy
     url: postgres:5432
     user: "$POSTGRES_USER"
+    database: dashed
     secureJsonData:
       password: "$POSTGRES_PASSWORD"
     jsonData:
-      database: dashed
       postgresVersion: 1500
       sslmode: disable
     readOnly: false
